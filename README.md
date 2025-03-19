@@ -1,3 +1,8 @@
+## Prettier config
+```text
+{**/*,*}.{js,ts,jsx,tsx,vue,astro,html,tpl,svg,css,scss}
+```
+
 ## File Structure
 ```text
 modx-vite-boilerplate/
