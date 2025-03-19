@@ -20,21 +20,21 @@ modx-vite-boilerplate/
 │   └── default.tpl
 ├── pages/
 │   └── index/
+│       ├── index.js
 │       ├── index.scss
-│       ├── index.tpl
-│       └── index.js
+│       └── index.tpl
 ├── root/
 │   ├── assets/
 │   │   ├── resources/
 │   │   │   └── 1/
-│   │   ├── template/
-│   │   │   ├── fonts/
-│   │   │   └── img/
-│   │   └── core/
-│   │       └── elements/
-│   │           ├── plugins/
-│   │           └── snippets/
-│   │               └── vite.php
+│   │   └── template/
+│   │       ├── fonts/
+│   │       └── img/
+│   ├── core/
+│   │   └── elements/
+│   │       ├── plugins/
+│   │       └── snippets/
+│   │           └── vite.php
 │   └── .htaccess
 ├── vite/
 ├── .gitignore
