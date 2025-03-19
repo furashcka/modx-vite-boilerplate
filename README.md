@@ -1,4 +1,4 @@
-## Prettier config
+## Prettier IDE config
 ```text
 {**/*,*}.{js,ts,jsx,tsx,vue,astro,html,tpl,svg,css,scss}
 ```
