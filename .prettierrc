@@ -1,0 +1,17 @@
+{
+  "overrides": [
+    {
+      "files": ["*.tpl", "*.svg"],
+      "options": {
+        "parser": "html"
+      }
+    },
+    {
+      "files": "*.tpl",
+      "options": {
+        "htmlWhitespaceSensitivity": "ignore",
+        "bracketSameLine": true
+      }
+    }
+  ]
+}
