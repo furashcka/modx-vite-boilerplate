@@ -9,6 +9,7 @@
   },
   "devDependencies": {
     "glob": "8.1.0",
+    "minimatch": "3.0.4",
     "sass": "^1.85.1",
     "vite": "^6.2.0"
   }
