@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 260">
+  <defs>
+    <clipPath id="favicon-clip-path">
+      <path fill="none" d="M800,891H0V441H800Z" />
+    </clipPath>
+  </defs>
+
+  <polygon
+    fill="#00decc"
+    clip-path="url(#favicon-clip-path)"
+    points="348.5 202.18 -9.6 -20.62 -9.6 513.06 113.89 585.01 732.52 441.1 732.53 441.1 348.5 202.18"
+  />
+
+  <polygon
+    fill="#00b5de"
+    points="110.08 0 259.83 93.17 259.83 93.17 259.87 93.2 260 92.99 260 0 110.08 0"
+  />
+
+  <polygon
+    fill="#00decc"
+    points="259.83 93.17 259.83 93.17 110.08 0 0 0 0 153.6 0.01 153.61 259.83 93.17"
+  />
+
+  <polygon fill="#ff5529" points="260 260 260 109.34 165.92 260 260 260" />
+
+  <polygon
+    fill="#ff9640"
+    points="165.92 260 260 109.34 260 109.34 0 170.45 0 260 165.92 260"
+  />
+</svg>
