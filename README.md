@@ -23,7 +23,7 @@ modx-vite-boilerplate/
 │       ├── index.scss
 │       ├── index.tpl
 │       └── index.js
-├── modx-root/
+├── root/
 │   ├── assets/
 │   │   ├── resources/
 │   │   │   └── 1/
