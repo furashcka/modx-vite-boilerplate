@@ -13,7 +13,7 @@ export default function viteModxFrontendCopy({
   liveReload = true,
 } = {}) {
   return {
-    name: "vite-plugin-modx-frontend-copy",
+    name: "vite-plugin-modx-backend-copy",
 
     async configResolved(config) {
       setViteConfig(config);
