@@ -34,7 +34,6 @@ export default defineConfig({
         },
       ],
     }),
-
     viteModxBackendCopy({
       // Don't forget to update absolute path to modx root
       root: "./dist",
