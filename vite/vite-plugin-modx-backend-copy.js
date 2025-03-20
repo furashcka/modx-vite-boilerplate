@@ -6,7 +6,7 @@ import cpy from "cpy";
 
 import { getViteConfig, setViteConfig } from "./utils/viteConfig.js";
 
-export default function viteModxFrontendCopy({
+export default function viteModxBackendCopy({
   root: modxRoot = "./dist/tmp",
   targets = [],
   clearCache = true,
