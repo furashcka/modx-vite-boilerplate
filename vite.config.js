@@ -2,6 +2,8 @@ import { resolve } from "path";
 import glob from "glob";
 import { defineConfig } from "vite";
 
+import viteModxFrontendCopy from "./vite/vite-plugin-modx-frontend-copy.js";
+
 const root = resolve(__dirname, "./");
 const input = glob.sync("./pages/**/*.js");
 
@@ -22,5 +24,14 @@ export default defineConfig({
     manifest: "assets/template/manifest.json",
     rollupOptions: { input },
   },
-  plugins: [],
+  plugins: [
+    viteModxFrontendCopy({
+      targets: [
+        {
+          src: "components/**/*.!(scss|tpl|js)",
+          dest: "assets/template/components",
+        },
+      ],
+    }),
+  ],
 });

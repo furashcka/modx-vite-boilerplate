@@ -8,7 +8,9 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "cpy": "^11.1.0",
     "glob": "8.1.0",
+    "glob-parent": "^6.0.2",
     "minimatch": "3.0.4",
     "sass": "^1.85.1",
     "vite": "^6.2.0"
