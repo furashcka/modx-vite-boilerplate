@@ -4,6 +4,7 @@ import { defineConfig } from "vite";
 
 import viteModxFrontendCopy from "./vite/vite-plugin-modx-frontend-copy.js";
 import viteModxBackendCopy from "./vite/vite-plugin-modx-backend-copy.js";
+import viteDynamicSvgSprite from "./vite/dynamic-svg-sprite/vite-plugin-dynamic-svg-sprite.js";
 
 const root = resolve(__dirname, "./");
 const input = glob.sync("./pages/**/*.js");
@@ -71,6 +72,19 @@ export default defineConfig({
       ],
       clearCache: true,
       liveReload: true,
+    }),
+    viteDynamicSvgSprite({
+      targets: [
+        {
+          src: "components/**/*.svg",
+          ignore: ["!components/favicon/favicon.svg"],
+          dest: "assets/template/components",
+        },
+        {
+          src: "root/**/*.svg",
+          dest: "",
+        },
+      ],
     }),
   ],
 });
