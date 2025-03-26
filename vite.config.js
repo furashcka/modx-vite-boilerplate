@@ -20,6 +20,9 @@ export default defineConfig({
     cors: true,
     strictPort: true,
   },
+  define: {
+    "import.meta.env.VERSION": +new Date(),
+  },
   build: {
     outDir: "./dist",
     assetsDir: "assets/template",
