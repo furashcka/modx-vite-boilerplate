@@ -20,6 +20,7 @@ export default function viteModxBackendCopy({
     },
 
     configureServer(server) {
+      const viteConfig = getViteConfig();
       const copyFileHandler = (src) => {
         const target = getMatchedTarget({ targets, file: src });
         if (!target) return;
@@ -32,6 +33,15 @@ export default function viteModxBackendCopy({
         if (clearCache) clearModxCache({ modxRoot });
         if (liveReload) server.ws.send({ type: "full-reload", path: "*" });
       };
+
+      // Copies all files, once
+      targets.forEach((target) => {
+        const src = path.resolve(viteConfig.root, target.src);
+        const dest = path.resolve(modxRoot, target.dest);
+        const { flat = false } = target;
+
+        cpy(src, dest, { flat });
+      });
 
       server.watcher.on("add", copyFileHandler);
       server.watcher.on("change", copyFileHandler);
