@@ -1,4 +1,5 @@
 import path from "path";
+import fs from "fs";
 import cpy from "cpy";
 
 import { getViteConfig, setViteConfig } from "./utils/viteConfig.js";
@@ -13,10 +14,19 @@ export default function viteModxFrontendCopy({ targets = [] } = {}) {
     },
 
     configureServer(server) {
+      const viteConfig = getViteConfig();
+
       server.middlewares.use(async (req, res, next) => {
         for (const target of targets) {
           const proxyURL = globProxyURL(target.dest, target.src, req.url);
           if (!proxyURL) continue;
+
+          const fileSrc = viteConfig.root + proxyURL;
+          if (!fs.existsSync(fileSrc)) {
+            res.statusCode = 404;
+            res.end("Not Found");
+            return;
+          }
 
           req.url = proxyURL;
           break;
