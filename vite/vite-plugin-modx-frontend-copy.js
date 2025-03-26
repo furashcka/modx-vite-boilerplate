@@ -21,7 +21,7 @@ export default function viteModxFrontendCopy({ targets = [] } = {}) {
           const proxyURL = globProxyURL(target.dest, target.src, req.url);
           if (!proxyURL) continue;
 
-          const fileSrc = viteConfig.root + proxyURL;
+          const fileSrc = viteConfig.root + proxyURL.split("?")[0];
           if (!fs.existsSync(fileSrc)) {
             res.statusCode = 404;
             res.end("Not Found");
