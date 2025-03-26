@@ -5,12 +5,9 @@ import { optimize } from "svgo";
 
 import { getViteConfig, setViteConfig } from "../utils/viteConfig.js";
 import getFileDest from "../utils/getFileDest.js";
+import urlToID from "../utils/urlToID.js";
 
-export default function viteDynamicSvgSprite({
-  targets = [],
-  svgo = {},
-  dynamicSvgSprite = {},
-} = {}) {
+export default function viteDynamicSvgSprite({ targets = [], svgo = {} } = {}) {
   return {
     name: "vite-plugin-dynamic-svg-sprite",
 
@@ -78,12 +75,15 @@ export default function viteDynamicSvgSprite({
             dest,
             root: viteConfig.root,
           });
-          const id = path.relative(viteConfig.build.outDir, fileDest);
+          const id = urlToID(
+            "/" + path.relative(viteConfig.build.outDir, fileDest),
+          );
 
-          let symbolAttrs = ` id="/${id}"`;
+          let symbolAttrs = ` id="dss-${id}"`;
           if (viewBox) symbolAttrs += ` viewBox="${viewBox}"`;
 
           const jsonContent = {
+            id,
             width,
             height,
             viewBox,

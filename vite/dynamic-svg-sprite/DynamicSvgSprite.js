@@ -1,14 +1,16 @@
+import urlToID from "@/vite/utils/urlToID.js";
+
 export default class DynamicSvgSprite {
   static #counter = 0;
-  #contents = {};
   #sprite = null;
+  #contents = {};
 
   constructor() {
     this.#sprite = this.#createSprite();
   }
 
   #createSprite() {
-    const id = `dss-id-${DynamicSvgSprite.#counter++}`;
+    const id = `dss-${DynamicSvgSprite.#counter++}`;
     const sprite = document.createElementNS(
       "http://www.w3.org/2000/svg",
       "svg",
@@ -22,25 +24,23 @@ export default class DynamicSvgSprite {
   }
 
   // Creates/updates a sprite
-  update(parentEl) {
-    const useElements = parentEl.querySelectorAll(
-      "svg:not(.dss-done) > use[href]",
+  update(parentElement) {
+    const svgElements = parentElement.querySelectorAll(
+      "svg[data-src]:not(.dss-done)",
     );
 
-    useElements.forEach(async (useEl) => {
-      const svgEl = useEl.parentElement;
-      const url = useEl.getAttribute("href").replace("#", "");
+    svgElements.forEach(async (svgElement) => {
+      const url = svgElement.getAttribute("data-src");
+      const id = `dss-` + urlToID(url);
 
-      // Svg has already been uploaded at this url
-      if (this.#contents[url]) {
-        this.#svgDone(svgEl, this.#contents[url]);
-        return;
+      if (this.#contents[id]) {
+        return this.#svgDone(svgElement, this.#contents[id]);
       }
 
-      this.#contents[url] = await this.#fetchSvg(url);
+      this.#contents[id] = await this.#fetchSvg(url);
       // TODO: Fill in this.#sprite using DocumentFragment
-      this.#sprite.insertAdjacentHTML("afterbegin", this.#contents[url].symbol);
-      this.#svgDone(svgEl, this.#contents[url]);
+      this.#sprite.insertAdjacentHTML("afterbegin", this.#contents[id].symbol);
+      this.#svgDone(svgElement, this.#contents[id]);
     });
   }
 
@@ -58,6 +58,7 @@ export default class DynamicSvgSprite {
       svgEl.setAttribute("viewBox", content.viewBox);
     }
 
+    svgEl.innerHTML = `<use href="#${content.id}"></use>`;
     svgEl.classList.add("ready");
   }
 
@@ -102,10 +103,12 @@ export default class DynamicSvgSprite {
     const height = svgElement.getAttribute("height");
     const viewBox = svgElement.getAttribute("viewBox");
 
-    let symbolAttrs = ` id="${url}"`;
+    const id = `dss-` + urlToID(url);
+    let symbolAttrs = ` id="${id}"`;
     if (viewBox) symbolAttrs += ` viewBox="${viewBox}"`;
 
     return {
+      id,
       width,
       height,
       viewBox,
