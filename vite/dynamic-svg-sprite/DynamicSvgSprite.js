@@ -1,4 +1,5 @@
 export default class DynamicSvgSprite {
+  static #counter = 0;
   #contents = {};
   #sprite = null;
 
@@ -7,7 +8,7 @@ export default class DynamicSvgSprite {
   }
 
   #createSprite() {
-    const id = `dss-id-${+new Date()}`;
+    const id = `dss-id-${DynamicSvgSprite.#counter++}`;
     const sprite = document.createElementNS(
       "http://www.w3.org/2000/svg",
       "svg",
