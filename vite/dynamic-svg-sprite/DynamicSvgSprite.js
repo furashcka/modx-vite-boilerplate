@@ -31,7 +31,7 @@ export default class DynamicSvgSprite {
 
     svgElements.forEach(async (svgElement) => {
       const url = svgElement.getAttribute("data-src");
-      const id = `dss-` + urlToID(url);
+      const id = urlToID(url);
 
       if (this.#contents[id]) {
         return this.#svgDone(svgElement, this.#contents[id]);
@@ -58,7 +58,7 @@ export default class DynamicSvgSprite {
       svgEl.setAttribute("viewBox", content.viewBox);
     }
 
-    svgEl.innerHTML = `<use href="#${content.id}"></use>`;
+    svgEl.innerHTML = `<use href="#dss-${content.id}"></use>`;
     svgEl.classList.add("ready");
   }
 
@@ -103,8 +103,8 @@ export default class DynamicSvgSprite {
     const height = svgElement.getAttribute("height");
     const viewBox = svgElement.getAttribute("viewBox");
 
-    const id = `dss-` + urlToID(url);
-    let symbolAttrs = ` id="${id}"`;
+    const id = urlToID(url);
+    let symbolAttrs = ` id="dss-${id}"`;
     if (viewBox) symbolAttrs += ` viewBox="${viewBox}"`;
 
     return {
