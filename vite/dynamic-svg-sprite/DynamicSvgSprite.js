@@ -60,7 +60,7 @@ export default class DynamicSvgSprite {
       svgEl.setAttribute("height", content.height);
     }
 
-    if (!svgEl.viewBox && content.viewBox) {
+    if (!svgEl.hasAttribute("viewBox") && content.viewBox) {
       svgEl.setAttribute("viewBox", content.viewBox);
     }
 
