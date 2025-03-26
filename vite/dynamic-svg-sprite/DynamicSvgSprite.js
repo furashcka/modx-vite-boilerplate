@@ -81,7 +81,7 @@ export default class DynamicSvgSprite {
 
       if (jsonResponse.ok) return jsonResponse.json();
       if (jsonResponse.status !== 404) {
-        throw new Error(`Error loading JSON: ${JsonResponse.status}`);
+        throw new Error(`Error loading JSON: ${jsonResponse.status}`);
       }
     }
 
