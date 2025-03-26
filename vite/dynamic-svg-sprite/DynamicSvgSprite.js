@@ -61,9 +61,14 @@ export default class DynamicSvgSprite {
     svgEl.classList.add("ready");
   }
 
-  async #fetchSvg(url) {
-    const jsonURL = `${url}.json`;
-    const svgURL = `${url}`;
+  async #fetchSvg(_url) {
+    const url = new URL(_url, window.location.href);
+    const version = import.meta.env.VERSION;
+
+    if (version) url.searchParams.append("v", version);
+
+    const jsonURL = `${url.origin}${url.pathname}.json${url.search}`;
+    const svgURL = url.toString();
 
     // Attempt load .json created from .svg
     try {
