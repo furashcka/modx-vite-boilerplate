@@ -12,9 +12,9 @@ modx-vite-boilerplate/
 │   └── scss/
 │       └── _base.scss
 ├── components/
-│   │   └── favicon/
-│   │       ├── favicon.svg
-│   │       └── favicon.tpl
+│   ├── favicon/
+│   │   ├── favicon.svg
+│   │   └── favicon.tpl
 │   ├── footer/
 │   │   ├── footer.scss
 │   │   └── footer.tpl
