@@ -1,3 +1,7 @@
 export default function urlToID(url) {
-  return url.replace(/[^a-zA-Z0-9]/g, "");
+  url = url.replace(/^[a-zA-Z]+:\/\/[^\/]+/, "");
+  url = url.split("?")[0];
+  url = url.replace(/[^a-zA-Z0-9]/g, "");
+
+  return url;
 }
