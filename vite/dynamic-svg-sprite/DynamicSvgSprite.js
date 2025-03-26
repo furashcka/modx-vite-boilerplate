@@ -37,17 +37,10 @@ export default class DynamicSvgSprite {
         return;
       }
 
-      try {
-        this.#contents[url] = await this.#fetchSvg(url);
-        // TODO: Fill in this.#sprite using DocumentFragment
-        this.#sprite.insertAdjacentHTML(
-          "afterbegin",
-          this.#contents[url].symbol,
-        );
-        this.#svgDone(svgEl, this.#contents[url]);
-      } catch (error) {
-        console.error(`Couldn't add ${url} to the sprite:`, error);
-      }
+      this.#contents[url] = await this.#fetchSvg(url);
+      // TODO: Fill in this.#sprite using DocumentFragment
+      this.#sprite.insertAdjacentHTML("afterbegin", this.#contents[url].symbol);
+      this.#svgDone(svgEl, this.#contents[url]);
     });
   }
 
@@ -69,35 +62,31 @@ export default class DynamicSvgSprite {
   }
 
   async #fetchSvg(url) {
-    const version = import.meta.env.VERSION
-      ? `?v=${import.meta.env.VERSION}`
-      : "";
-    const jsonURL = `${url}.json${version}`;
-    const svgURL = `${url}${version}`;
+    const jsonURL = `${url}.json`;
+    const svgURL = `${url}`;
 
-    // JSON
-    {
+    // Attempt load .json created from .svg
+    try {
       const jsonResponse = await fetch(jsonURL);
-
-      if (jsonResponse.ok) return jsonResponse.json();
-      if (jsonResponse.status !== 404) {
-        throw new Error(`Error loading JSON: ${jsonResponse.status}`);
-      }
+      if (jsonResponse.ok) return await jsonResponse.json();
+    } catch (e) {
+      console.error("DynamicSvgSprite:", e, jsonURL);
     }
 
-    // SVG
-    {
+    // Attempt load .svg
+    try {
       const svgResponse = await fetch(svgURL);
+      if (!svgResponse.ok) return "";
 
-      if (svgResponse.ok) {
-        return this.#parseSvg({
-          url: svgURL,
-          text: await svgResponse.text(),
-        });
-      }
-
-      throw new Error(`Error loading SVG: ${svgResponse.status}`);
+      return this.#parseSvg({
+        url: svgURL,
+        text: await svgResponse.text(),
+      });
+    } catch (e) {
+      console.error("DynamicSvgSprite:", e, svgURL);
     }
+
+    return "";
   }
 
   #parseSvg({ url, text }) {
