@@ -72,12 +72,13 @@ export default class DynamicSvgSprite {
     const svgURL = url.toString();
 
     // Attempt load .json created from .svg
-    try {
-      const jsonResponse = await fetch(jsonURL);
-      if (jsonResponse.ok) return await jsonResponse.json();
-    } catch (e) {
-      if (import.meta.env.DEV) return;
-      console.error("DynamicSvgSprite:", e, jsonURL);
+    if (!import.meta.env.DEV) {
+      try {
+        const jsonResponse = await fetch(jsonURL);
+        if (jsonResponse.ok) return await jsonResponse.json();
+      } catch (e) {
+        console.error("DynamicSvgSprite:", e, jsonURL);
+      }
     }
 
     // Attempt load .svg
