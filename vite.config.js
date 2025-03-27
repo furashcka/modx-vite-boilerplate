@@ -7,7 +7,7 @@ import viteModxBackendCopy from "./vite/vite-plugin-modx-backend-copy.js";
 import viteDynamicSvgSprite from "./vite/dynamic-svg-sprite/vite-plugin-dynamic-svg-sprite.js";
 
 const root = resolve(__dirname, "./");
-const input = glob.sync("./pages/**/*.js");
+const input = glob.sync("./pages/**/*.{js,scss}");
 
 export default defineConfig({
   root,
