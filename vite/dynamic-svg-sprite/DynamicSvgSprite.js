@@ -76,6 +76,7 @@ export default class DynamicSvgSprite {
       const jsonResponse = await fetch(jsonURL);
       if (jsonResponse.ok) return await jsonResponse.json();
     } catch (e) {
+      if (import.meta.env.DEV) return;
       console.error("DynamicSvgSprite:", e, jsonURL);
     }
 
