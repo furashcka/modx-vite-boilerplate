@@ -5,6 +5,7 @@ import minimatch from "minimatch";
 import cpy from "cpy";
 
 import { getViteConfig, setViteConfig } from "./utils/viteConfig.js";
+import getFileDest from "./utils/getFileDest.js";
 
 export default function viteModxBackendCopy({
   root: modxRoot = "./dist/tmp",
@@ -21,14 +22,25 @@ export default function viteModxBackendCopy({
 
     configureServer(server) {
       const viteConfig = getViteConfig();
-      const copyFileHandler = (src) => {
-        const target = getMatchedTarget({ targets, file: src });
+      const copyFileHandler = (fileSrc) => {
+        const target = getMatchedTarget({ targets, file: fileSrc });
         if (!target) return;
 
-        const dest = path.resolve(modxRoot, target.dest);
-        const { flat = false } = target;
+        // TODO: Need refactoring
+        const fileDest = path.resolve(
+          modxRoot,
+          path.relative(
+            viteConfig.root,
+            getFileDest({
+              fileSrc,
+              src: target.src,
+              dest: target.dest,
+              root: viteConfig.root,
+            }),
+          ),
+        );
 
-        cpy(src, dest, { flat });
+        cpy(fileSrc, path.dirname(fileDest));
 
         if (clearCache) clearModxCache({ modxRoot });
         if (liveReload) server.ws.send({ type: "full-reload", path: "*" });
