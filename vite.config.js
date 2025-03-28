@@ -7,7 +7,6 @@ import viteModxBackendCopy from "./vite/vite-plugin-modx-backend-copy.js";
 import viteDynamicSvgSprite from "./vite/dynamic-svg-sprite/vite-plugin-dynamic-svg-sprite.js";
 
 const root = resolve(__dirname, "./");
-const input = glob.sync("./pages/**/*.{js,scss}");
 
 export default defineConfig({
   root,
@@ -27,7 +26,28 @@ export default defineConfig({
     outDir: "./dist",
     assetsDir: "assets/template",
     manifest: "assets/template/manifest.json",
-    rollupOptions: { input },
+    rollupOptions: {
+      input: glob.sync("./pages/**/*.{js,scss}"),
+      output: {
+        entryFileNames: "assets/template/js/[name]-[hash].js",
+        chunkFileNames: "assets/template/js/chunks/[name]-[hash].js",
+
+        assetFileNames(assetInfo) {
+          const { name, originalFileName } = assetInfo;
+
+          // Analog entryFileNames & chunkFileNames for .css
+          if (name && originalFileName && name.endsWith(".css")) {
+            if (originalFileName.match(/^pages\//)) {
+              return "assets/template/css/[name]-[hash][extname]";
+            }
+
+            return "assets/template/css/chunks/[name]-[hash][extname]";
+          }
+
+          return "assets/template/[name]-[hash][extname]";
+        },
+      },
+    },
   },
   plugins: [
     viteModxFrontendCopy({
