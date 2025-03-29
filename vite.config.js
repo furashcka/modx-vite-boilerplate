@@ -4,6 +4,7 @@ import { defineConfig } from "vite";
 
 import viteModxFrontendCopy from "./vite/vite-plugin-modx-frontend-copy.js";
 import viteModxBackendCopy from "./vite/vite-plugin-modx-backend-copy.js";
+import viteSvgo from "./vite/vite-plugin-svgo.js";
 import viteDynamicSvgSprite from "./vite/dynamic-svg-sprite/vite-plugin-dynamic-svg-sprite.js";
 import viteModxFavicon from "./vite/vite-plugin-modx-favicon.js";
 import viteStripTplComments from "./vite/vite-plugin-strip-tpl-comments.js";
@@ -98,6 +99,7 @@ export default defineConfig({
       clearCache: true,
       liveReload: true,
     }),
+    viteSvgo(),
     viteDynamicSvgSprite({
       targets: [
         {
