@@ -14,30 +14,26 @@ export default function viteModxFavicon() {
 
     async closeBundle() {
       const viteConfig = getViteConfig();
-      const outDir = viteConfig.build.outDir;
-      const src = path.join(outDir, "**/*.tpl");
+      const src = path.join(viteConfig.build.outDir, "**/*.tpl");
       const files = glob.sync(src, { nodir: true });
+      const promises = files.map(async (fileSrc) => {
+        let content = await fs.readFile(fileSrc, "utf8");
 
-      for (const file of files) {
-        try {
-          let content = await fs.readFile(file, "utf8");
+        /* Remove lines that are entirely comments */
+        content = content
+          // Split lines considering Windows & Unix line endings
+          .split(/\r?\n/)
+          // Filter out comment-only lines
+          .filter((line) => !/^\s*<!--.*?-->\s*$/.test(line))
+          .join("\n");
 
-          /* Remove lines that are entirely comments */
-          content = content
-            // Split lines considering Windows & Unix line endings
-            .split(/\r?\n/)
-            // Filter out comment-only lines
-            .filter((line) => !/^\s*<!--.*?-->\s*$/.test(line))
-            .join("\n");
+        // Remove any remaining inline comments
+        content = content.replace(/<!--[\s\S]*?-->/g, "");
 
-          // Remove any remaining inline comments
-          content = content.replace(/<!--[\s\S]*?-->/g, "");
+        await fs.writeFile(fileSrc, content, "utf8");
+      });
 
-          await fs.writeFile(file, content, "utf8");
-        } catch (error) {
-          console.error(`Error processing file ${file}:`, error);
-        }
-      }
+      await Promise.all(promises);
     },
   };
 }

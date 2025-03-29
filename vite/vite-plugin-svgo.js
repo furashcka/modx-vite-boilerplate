@@ -15,15 +15,13 @@ export default function viteSvgo({ config = {} } = {}) {
 
     async closeBundle() {
       const viteConfig = getViteConfig();
-      const outDir = viteConfig.build.outDir;
-      const src = path.join(outDir, "**/*.svg");
+      const src = path.join(viteConfig.build.outDir, "**/*.svg");
       const files = glob.sync(src, { nodir: true });
       const promises = files.map(async (fileSrc) => {
         const content = await fs.readFile(fileSrc, "utf8");
         const svgoResult = optimize(content, { ...config, path: fileSrc });
-        const optimizedContent = svgoResult.data;
 
-        await fs.writeFile(fileSrc, optimizedContent, "utf8");
+        await fs.writeFile(fileSrc, svgoResult.data, "utf8");
       });
 
       await Promise.all(promises);
