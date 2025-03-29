@@ -6,6 +6,7 @@ import viteModxFrontendCopy from "./vite/vite-plugin-modx-frontend-copy.js";
 import viteModxBackendCopy from "./vite/vite-plugin-modx-backend-copy.js";
 import viteDynamicSvgSprite from "./vite/dynamic-svg-sprite/vite-plugin-dynamic-svg-sprite.js";
 import viteModxFavicon from "./vite/vite-plugin-modx-favicon.js";
+import viteStripTplComments from "./vite/vite-plugin-strip-tpl-comments.js";
 
 const root = resolve(__dirname, "./");
 
@@ -114,5 +115,6 @@ export default defineConfig({
       src: "components/favicon/favicon.svg",
       dest: "assets/template/components/favicon",
     }),
+    viteStripTplComments(),
   ],
 });
