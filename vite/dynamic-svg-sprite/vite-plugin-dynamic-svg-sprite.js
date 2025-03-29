@@ -34,7 +34,7 @@ export default function viteDynamicSvgSprite({ targets = [], svgo = {} } = {}) {
       return null;
     },
 
-    async configResolved(config) {
+    configResolved(config) {
       setViteConfig(config);
     },
 

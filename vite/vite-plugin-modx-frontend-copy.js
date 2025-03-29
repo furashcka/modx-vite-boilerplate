@@ -9,7 +9,7 @@ export default function viteModxFrontendCopy({ targets = [] } = {}) {
   return {
     name: "vite-plugin-modx-frontend-copy",
 
-    async configResolved(config) {
+    configResolved(config) {
       setViteConfig(config);
     },
 

@@ -15,7 +15,7 @@ export default function viteModxBackendCopy({
   return {
     name: "vite-plugin-modx-backend-copy",
 
-    async configResolved(config) {
+    configResolved(config) {
       setViteConfig(config);
     },
 
