@@ -4,9 +4,9 @@ import ico from "sharp-ico";
 
 import { getViteConfig, setViteConfig } from "./utils/viteConfig.js";
 
-export default function viteModxFavicon({ src, dest }) {
+export default function viteSimplifiedFavicon({ src, dest }) {
   return {
-    name: "vite-plugin-modx-favicon",
+    name: "vite-plugin-simplified-favicon",
 
     configResolved(config) {
       setViteConfig(config);
