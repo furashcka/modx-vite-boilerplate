@@ -58,6 +58,7 @@ export default function viteModxBackendCopy({
 
     async writeBundle() {
       const viteConfig = getViteConfig();
+      const promises = [];
 
       targets.forEach((target) => {
         const src = path.resolve(viteConfig.root, target.src);
@@ -68,8 +69,10 @@ export default function viteModxBackendCopy({
         );
         const { flat = false } = target;
 
-        cpy(src, dest, { flat });
+        promises.push(cpy(src, dest, { flat }));
       });
+
+      await Promise.all(promises);
     },
   };
 }
