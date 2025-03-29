@@ -5,6 +5,7 @@ import { defineConfig } from "vite";
 import viteModxFrontendCopy from "./vite/vite-plugin-modx-frontend-copy.js";
 import viteModxBackendCopy from "./vite/vite-plugin-modx-backend-copy.js";
 import viteDynamicSvgSprite from "./vite/dynamic-svg-sprite/vite-plugin-dynamic-svg-sprite.js";
+import viteModxFavicon from "./vite/vite-plugin-modx-favicon.js";
 
 const root = resolve(__dirname, "./");
 
@@ -108,6 +109,10 @@ export default defineConfig({
           dest: "",
         },
       ],
+    }),
+    viteModxFavicon({
+      src: "components/favicon/favicon.svg",
+      dest: "assets/template/components/favicon",
     }),
   ],
 });
