@@ -79,14 +79,13 @@ export default function viteImageMinimizer({
 async function processImages(targets, pattern, ext, processor) {
   const viteConfig = getViteConfig();
   const files = getTargetsFiles(targets, pattern, ext);
+  const promises = files.map(async ({ src, dest }) => {
+    const resolvedDest = path.resolve(viteConfig.build.outDir, dest);
+    await fs.mkdir(path.dirname(resolvedDest), { recursive: true });
+    await processor(src, resolvedDest);
+  });
 
-  await Promise.all(
-    files.map(async ({ src, dest }) => {
-      const resolvedDest = path.resolve(viteConfig.build.outDir, dest);
-      await fs.mkdir(path.dirname(resolvedDest), { recursive: true });
-      await processor(src, resolvedDest);
-    }),
-  );
+  await Promise.all(promises);
 }
 
 function getTargetsFiles(targets, srcEnd, destExt) {
@@ -94,6 +93,7 @@ function getTargetsFiles(targets, srcEnd, destExt) {
 
   targets.forEach((target) => {
     const foundFiles = glob.sync(path.join(target.src, srcEnd));
+
     foundFiles.forEach((fileSrc) => {
       files.push({
         src: fileSrc,
