@@ -1,4 +1,3 @@
-import { resolve } from "path";
 import glob from "glob";
 import { defineConfig } from "vite";
 
@@ -10,11 +9,11 @@ import viteDynamicSvgSprite from "./vite/dynamic-svg-sprite/vite-plugin-dynamic-
 import viteSimplifiedFavicon from "./vite/vite-plugin-simplified-favicon.js";
 import viteStripTplComments from "./vite/vite-plugin-strip-tpl-comments.js";
 
-const root = resolve(__dirname, "./");
+const root = __dirname;
 
 export default defineConfig({
   root,
-  publicDir: "./root",
+  publicDir: "root",
   resolve: {
     alias: { "@": root },
   },
@@ -27,11 +26,11 @@ export default defineConfig({
     "import.meta.env.VERSION": +new Date(),
   },
   build: {
-    outDir: "./dist",
+    outDir: "dist",
     assetsDir: "assets/template",
     manifest: "assets/template/manifest.json",
     rollupOptions: {
-      input: glob.sync("./pages/**/*.{js,scss}"),
+      input: glob.sync("pages/**/*.{js,scss}"),
       output: {
         entryFileNames: "assets/template/js/[name]-[hash].js",
         chunkFileNames: "assets/template/js/chunks/[name]-[hash].js",
