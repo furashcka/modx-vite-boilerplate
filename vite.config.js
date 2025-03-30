@@ -3,7 +3,7 @@ import glob from "glob";
 import { defineConfig } from "vite";
 
 import viteGlobRouter from "./vite/vite-plugin-glob-router.js";
-import viteModxFrontendCopy from "./vite/vite-plugin-modx-frontend-copy.js";
+import viteCopy from "./vite/vite-plugin-copy.js";
 import viteModxBackendCopy from "./vite/vite-plugin-modx-backend-copy.js";
 import viteImageMinimizer from "./vite/vite-plugin-image-minimizer.js";
 import viteDynamicSvgSprite from "./vite/dynamic-svg-sprite/vite-plugin-dynamic-svg-sprite.js";
@@ -70,7 +70,7 @@ export default defineConfig({
         },
       ],
     }),
-    viteModxFrontendCopy({
+    viteCopy({
       targets: [
         {
           src: "components/**/*.!(scss|tpl|js)",
