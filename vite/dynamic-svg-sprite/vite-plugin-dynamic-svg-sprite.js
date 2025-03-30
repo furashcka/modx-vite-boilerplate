@@ -59,7 +59,7 @@ export default function viteDynamicSvgSprite({ targets = [], svgo = {} } = {}) {
           const width = widthMatch ? parseInt(widthMatch[1]) : null;
           const height = heightMatch ? parseInt(heightMatch[1]) : null;
           const viewBox = viewBoxMatch ? viewBoxMatch[1] : null;
-          const svgoResult = optimize(content, { ...svgo, path: fileSrc });
+          const svgoResult = svgo ? optimize(content, svgo) : { data: content };
           const optimizedContent = svgoResult.data;
 
           const innerContentMatch = optimizedContent.match(

@@ -139,6 +139,8 @@ export default defineConfig({
           dest: "",
         },
       ],
+      // svgo runs from viteImageMinimizer
+      svgo: false,
     }),
     viteSimplifiedFavicon({
       src: "components/favicon/favicon.svg",
