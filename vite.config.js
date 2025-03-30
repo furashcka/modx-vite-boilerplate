@@ -2,6 +2,7 @@ import { resolve } from "path";
 import glob from "glob";
 import { defineConfig } from "vite";
 
+import viteGlobRouter from "./vite/vite-plugin-glob-router.js";
 import viteModxFrontendCopy from "./vite/vite-plugin-modx-frontend-copy.js";
 import viteModxBackendCopy from "./vite/vite-plugin-modx-backend-copy.js";
 import viteImageMinimizer from "./vite/vite-plugin-image-minimizer.js";
@@ -53,6 +54,22 @@ export default defineConfig({
     },
   },
   plugins: [
+    viteGlobRouter({
+      targets: [
+        {
+          src: "assets/template/components/**/*.!(scss|tpl|js|webp)",
+          dest: "components/**/*.!(scss|tpl|js|webp)",
+        },
+        {
+          src: "assets/template/components/**/*.{png,jpg,jpeg,webp}",
+          dest: "components/**/*.{png,jpg,jpeg,webp}",
+        },
+        {
+          src: "assets/template/**/*.{png,jpg,jpeg,webp}",
+          dest: "assets/template/**/*.{png,jpg,jpeg,webp}",
+        },
+      ],
+    }),
     viteModxFrontendCopy({
       targets: [
         {
