@@ -11,10 +11,6 @@
 RewriteEngine On
 RewriteBase /
 
-# Proxying for vite in development mode (MAMP PRO, etc.)
-RewriteCond %{HTTP_HOST} ^example\.local(:8890)?$ [NC]
-RewriteRule ^assets/(.*)$ http://localhost:5173/assets/$1 [P,L]
-
 # Prevent rewrite the .well-known directory used by LetsEncrypt by rules below of this rule
 RewriteRule "^\.well-known/" - [L]
 
