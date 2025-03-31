@@ -2,8 +2,8 @@
 $src = $scriptProperties[0] ?? '';
 if (empty($src)) return '';
 
-// Determine dev mode by GET parameter
-$is_dev = isset($_GET['vite_dev']) && $_GET['vite_dev'] === '1';
+// Initialized using vite
+$is_dev = false;
 
 // Production mode - work with manifest.json
 if (!$is_dev) {
