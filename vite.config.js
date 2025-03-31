@@ -12,7 +12,7 @@ import viteModxBuild from "./vite/vite-plugin-modx-build.js";
 
 const viteRoot = __dirname;
 // Don't forget to update absolute path to modx root
-const modxRoot = "dist/modx-root";
+const modxRoot = "dist-modx";
 
 export default defineConfig({
   root: viteRoot,

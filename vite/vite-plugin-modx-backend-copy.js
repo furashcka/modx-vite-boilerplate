@@ -1,5 +1,4 @@
 import path from "path";
-import fs from "fs";
 import { rm } from "fs/promises";
 import minimatch from "minimatch";
 import cpy from "cpy";
@@ -7,7 +6,7 @@ import cpy from "cpy";
 import { getViteConfig, setViteConfig } from "./utils/viteConfig.js";
 
 export default function viteModxBackendCopy({
-  root: modxRoot = "./dist/tmp",
+  root = "dist-modx",
   targets = [],
   clearCache = true,
   liveReload = true,
@@ -21,11 +20,12 @@ export default function viteModxBackendCopy({
 
     configureServer(server) {
       const viteConfig = getViteConfig();
-      const copyFileHandler = (src) => {
+      const cache = path.resolve(root, "core/cache");
+      const copyFileHandler = async (src) => {
         const target = getMatchedTarget({ targets, file: src });
         if (!target) return;
 
-        const dest = path.resolve(modxRoot, target.dest);
+        const dest = path.resolve(root, target.dest);
         const { flat = false } = target;
 
         /*
@@ -39,14 +39,14 @@ export default function viteModxBackendCopy({
           filter: (file) => file.path === src,
         });
 
-        if (clearCache) clearModxCache({ modxRoot });
+        if (clearCache) await rm(cache, { recursive: true, force: true });
         if (liveReload) server.ws.send({ type: "full-reload", path: "*" });
       };
 
       // Copies all files, once
       targets.forEach((target) => {
         const src = path.resolve(viteConfig.root, target.src);
-        const dest = path.resolve(modxRoot, target.dest);
+        const dest = path.resolve(root, target.dest);
         const { flat = false } = target;
 
         cpy(src, dest, { flat });
@@ -86,16 +86,4 @@ function getMatchedTarget({ targets, file } = {}) {
   }
 
   return null;
-}
-
-async function clearModxCache({ modxRoot }) {
-  const cachePath = path.join(modxRoot, "core/cache");
-
-  try {
-    if (fs.existsSync(cachePath)) {
-      await rm(cachePath, { recursive: true, force: true });
-    }
-  } catch (error) {
-    console.error(`Error clearing MODX cache: ${error.message}`);
-  }
 }

@@ -5,7 +5,7 @@ import cpy from "cpy";
 
 import { getViteConfig, setViteConfig } from "./utils/viteConfig.js";
 
-export default function viteModxFavicon({ root = "./dist/tmp" }) {
+export default function viteModxFavicon({ root = "dist-modx" }) {
   const templatesDir = path.resolve(root, "assets/template");
   const elementsDir = path.resolve(root, "core/elements");
   const cacheDir = path.resolve(root, "core/cache");
