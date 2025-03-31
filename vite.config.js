@@ -8,14 +8,17 @@ import viteImageMinimizer from "./vite/vite-plugin-image-minimizer.js";
 import viteDynamicSvgSprite from "./vite/dynamic-svg-sprite/vite-plugin-dynamic-svg-sprite.js";
 import viteSimplifiedFavicon from "./vite/vite-plugin-simplified-favicon.js";
 import viteStripTplComments from "./vite/vite-plugin-strip-tpl-comments.js";
+import viteModxBuild from "./vite/vite-plugin-modx-build.js";
 
-const root = __dirname;
+const viteRoot = __dirname;
+// Don't forget to update absolute path to modx root
+const modxRoot = "dist/modx-root";
 
 export default defineConfig({
-  root,
+  root: viteRoot,
   publicDir: "root",
   resolve: {
-    alias: { "@": root },
+    alias: { "@": viteRoot },
   },
   server: {
     origin: "http://localhost:5173",
@@ -78,8 +81,7 @@ export default defineConfig({
       ],
     }),
     viteModxBackendCopy({
-      // Don't forget to update absolute path to modx root
-      root: "./dist",
+      root: modxRoot,
       targets: [
         {
           src: "components/**/*.tpl",
@@ -147,5 +149,6 @@ export default defineConfig({
       dest: "assets/template/components/favicon",
     }),
     viteStripTplComments(),
+    viteModxBuild({ root: modxRoot }),
   ],
 });
