@@ -1,5 +1,5 @@
-import path from "path";
-import { rm } from "fs/promises";
+import path from "node:path";
+import fs from "node:fs/promises";
 import minimatch from "minimatch";
 import cpy from "cpy";
 
@@ -39,7 +39,7 @@ export default function viteModxBackendCopy({
           filter: (file) => file.path === src,
         });
 
-        if (clearCache) await rm(cache, { recursive: true, force: true });
+        if (clearCache) await fs.rm(cache, { recursive: true, force: true });
         if (liveReload) server.ws.send({ type: "full-reload", path: "*" });
       };
 

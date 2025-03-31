@@ -1,4 +1,4 @@
-import path from "path";
+import path from "node:path";
 import sharp from "sharp";
 import ico from "sharp-ico";
 
@@ -12,7 +12,7 @@ export default function viteSimplifiedFavicon({ src, dest }) {
       setViteConfig(config);
     },
 
-    async closeBundle() {
+    async writeBundle() {
       try {
         const viteConfig = getViteConfig();
 

@@ -1,6 +1,6 @@
-import path from "path";
+import path from "node:path";
+import fs from "node:fs/promises";
 import glob from "glob";
-import { promises as fs } from "fs";
 
 import { getViteConfig, setViteConfig } from "./utils/viteConfig.js";
 
@@ -12,7 +12,7 @@ export default function viteModxFavicon() {
       setViteConfig(config);
     },
 
-    async closeBundle() {
+    async buildEnd() {
       const viteConfig = getViteConfig();
       const src = path.join(viteConfig.build.outDir, "**/*.tpl");
       const files = glob.sync(src, { nodir: true });

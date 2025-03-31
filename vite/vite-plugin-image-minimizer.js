@@ -1,5 +1,5 @@
 import path from "node:path";
-import { promises as fs } from "node:fs";
+import fs from "node:fs/promises";
 import glob from "glob";
 import sharp from "sharp";
 import { optimize } from "svgo";
@@ -20,7 +20,7 @@ export default function viteImageMinimizer({
       setViteConfig(config);
     },
 
-    async closeBundle() {
+    async writeBundle() {
       const webpPromise = processImages(
         targets,
         "**/*.{png,jpg,jpeg}",

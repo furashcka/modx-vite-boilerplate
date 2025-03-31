@@ -1,4 +1,4 @@
-import path from "path";
+import path from "node:path";
 import cpy from "cpy";
 
 import { getViteConfig, setViteConfig } from "./utils/viteConfig.js";
