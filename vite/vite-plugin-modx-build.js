@@ -23,7 +23,7 @@ export default function viteModxFavicon({ root = "dist-modx" }) {
       await phpViteDevMode(root, true);
     },
 
-    async buildEnd() {
+    async closeBundle() {
       const viteConfig = getViteConfig();
 
       await Promise.all([
@@ -32,14 +32,7 @@ export default function viteModxFavicon({ root = "dist-modx" }) {
         fs.rm(cacheDir, { recursive: true, force: true }),
       ]);
 
-      const res = await cpy(`${viteConfig.build.outDir}/**/*`, root);
-      if (!res.length) {
-        setTimeout(
-          () => error("Copy error to modx root, please restart the build."),
-          1000,
-        );
-      }
-
+      await cpy(`${viteConfig.build.outDir}/**/*`, root);
       await htaccessProxy(root, false);
       await phpViteDevMode(root, false);
     },
@@ -79,12 +72,4 @@ async function phpViteDevMode(root, isEnabled) {
   );
 
   await fs.writeFile(fileSrc, content);
-}
-
-function error(text) {
-  const red = "\x1b[31m";
-  const bold = "\x1b[1m";
-  const reset = "\x1b[0m";
-
-  console.error(`\n${bold}${red}${text}${reset}\n`);
 }
