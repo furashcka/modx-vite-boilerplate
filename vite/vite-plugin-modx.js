@@ -10,7 +10,6 @@ export default function viteModx({
   root = "dist-modx",
   targets = [],
   clearCache = true,
-  liveReload = true,
 } = {}) {
   const templatesDir = path.resolve(root, "assets/template");
   const elementsDir = path.resolve(root, "core/elements");
@@ -45,7 +44,6 @@ export default function viteModx({
         });
 
         if (clearCache) await fs.rm(cache, { recursive: true, force: true });
-        if (liveReload) server.ws.send({ type: "full-reload", path: "*" });
       };
 
       // Copies all files, once

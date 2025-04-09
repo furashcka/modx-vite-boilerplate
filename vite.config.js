@@ -172,7 +172,6 @@ export default defineConfig({
         },
       ],
       clearCache: true,
-      liveReload: true,
     }),
   ],
 });
