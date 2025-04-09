@@ -3,12 +3,11 @@ import { defineConfig } from "vite";
 
 import viteGlobRouter from "./vite/vite-plugin-glob-router.js";
 import viteCopy from "./vite/vite-plugin-copy.js";
-import viteModxBackendCopy from "./vite/vite-plugin-modx-backend-copy.js";
 import viteImageMinimizer from "./vite/vite-plugin-image-minimizer.js";
 import viteDynamicSvgSprite from "./vite/dynamic-svg-sprite/vite-plugin-dynamic-svg-sprite.js";
 import viteSimplifiedFavicon from "./vite/vite-plugin-simplified-favicon.js";
 import viteStripTplComments from "./vite/vite-plugin-strip-tpl-comments.js";
-import viteModxBuild from "./vite/vite-plugin-modx-build.js";
+import viteModx from "./vite/vite-plugin-modx.js";
 
 const viteRoot = __dirname;
 // Don't forget to update absolute path to modx root
@@ -80,43 +79,6 @@ export default defineConfig({
         },
       ],
     }),
-    viteModxBackendCopy({
-      root: modxRoot,
-      targets: [
-        {
-          src: "components/**/*.tpl",
-          dest: "core/elements/components",
-        },
-        {
-          src: "layouts/**/*.tpl",
-          dest: "core/elements/layouts",
-        },
-        {
-          src: "pages/**/*.tpl",
-          dest: "core/elements/pages",
-          // Nested directories will not be copied.
-          flat: true,
-        },
-        {
-          src: "root/core/elements/configs/**/*",
-          dest: "core/elements/configs",
-        },
-        {
-          src: "root/core/elements/plugins/**/*",
-          dest: "core/elements/plugins",
-        },
-        {
-          src: "root/core/elements/snippets/**/*",
-          dest: "core/elements/snippets",
-        },
-        {
-          src: "root/.htaccess",
-          dest: "",
-        },
-      ],
-      clearCache: true,
-      liveReload: true,
-    }),
     viteImageMinimizer({
       targets: [
         {
@@ -149,6 +111,41 @@ export default defineConfig({
       dest: "assets/template/components/favicon",
     }),
     viteStripTplComments(),
-    viteModxBuild({ root: modxRoot }),
+    viteModx({
+      root: modxRoot,
+      targets: [
+        {
+          src: "components/**/*.tpl",
+          dest: "core/elements/components",
+        },
+        {
+          src: "layouts/**/*.tpl",
+          dest: "core/elements/layouts",
+        },
+        {
+          src: "pages/**/*.tpl",
+          dest: "core/elements/pages",
+          flat: true,
+        },
+        {
+          src: "root/core/elements/configs/**/*",
+          dest: "core/elements/configs",
+        },
+        {
+          src: "root/core/elements/plugins/**/*",
+          dest: "core/elements/plugins",
+        },
+        {
+          src: "root/core/elements/snippets/**/*",
+          dest: "core/elements/snippets",
+        },
+        {
+          src: "root/.htaccess",
+          dest: "",
+        },
+      ],
+      clearCache: true,
+      liveReload: true,
+    }),
   ],
 });
