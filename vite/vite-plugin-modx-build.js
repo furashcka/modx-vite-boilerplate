@@ -32,7 +32,13 @@ export default function viteModxFavicon({ root = "dist-modx" }) {
         fs.rm(cacheDir, { recursive: true, force: true }),
       ]);
 
-      await cpy(`${viteConfig.build.outDir}/**/*`, root);
+      const res = await cpy(`${viteConfig.build.outDir}/**/*`, root);
+      if (!res.length) {
+        setTimeout(
+          () => error("Copy error to modx root, please restart the build."),
+          1000,
+        );
+      }
 
       await htaccessProxy(root, false);
       await phpViteDevMode(root, false);
@@ -73,4 +79,12 @@ async function phpViteDevMode(root, isEnabled) {
   );
 
   await fs.writeFile(fileSrc, content);
+}
+
+function error(text) {
+  const red = "\x1b[31m";
+  const bold = "\x1b[1m";
+  const reset = "\x1b[0m";
+
+  console.error(`\n${bold}${red}${text}${reset}\n`);
 }
