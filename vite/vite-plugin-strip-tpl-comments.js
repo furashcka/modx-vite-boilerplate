@@ -12,7 +12,7 @@ export default function viteModxFavicon() {
       setViteConfig(config);
     },
 
-    async buildEnd() {
+    async closeBundle() {
       const viteConfig = getViteConfig();
       const src = path.join(viteConfig.build.outDir, "**/*.tpl");
       const files = glob.sync(src, { nodir: true });
