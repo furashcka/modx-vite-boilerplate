@@ -45,8 +45,7 @@ if (!$is_dev) {
 else {
   if (!str_ends_with($src, '.js')) return '';
 
-  $host = "http://localhost:5173";
-  return '<script type="module" src="' . $host . '/' . $src . '"></script>';
+  return '<script type="module" src="/' . $src . '"></script>';
 }
 
 return '';

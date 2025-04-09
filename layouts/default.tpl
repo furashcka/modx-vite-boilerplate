@@ -8,7 +8,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui" />
 
-    <base href="{$modx->config['site_url']}" />
+    <base href="{$_modx->runSnippet('@FILE snippets/get_base_url.php')}" />
     <link rel="canonical" href="{$_modx->getPlaceholder('canonical')}" />
 
     {include "file:components/favicon/favicon.tpl"}

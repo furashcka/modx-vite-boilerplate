@@ -61,7 +61,6 @@ export default function viteModx({
       server.watcher.on("change", copyFileHandler);
 
       await fs.rm(cacheDir, { recursive: true, force: true });
-      await htaccessProxy(root, true);
       await phpViteDevMode(root, true);
     },
 
@@ -94,7 +93,6 @@ export default function viteModx({
       ]);
 
       await cpy(`${viteConfig.build.outDir}/**/*`, root);
-      await htaccessProxy(root, false);
       await phpViteDevMode(root, false);
     },
   };
@@ -109,28 +107,6 @@ function getMatchedTarget({ targets, file } = {}) {
   }
 
   return null;
-}
-
-async function htaccessProxy(root, isEnable) {
-  const fileSrc = `${root}/.htaccess`;
-  if (!existsSync(fileSrc)) return;
-
-  const viteConfig = getViteConfig();
-  const rule = [
-    `# Vite proxy, this is only for development mode.`,
-    `RewriteCond %{REQUEST_URI} ^/assets/`,
-    `RewriteCond %{REQUEST_FILENAME} !-f`,
-    `RewriteRule ^assets/(.*)$ ${viteConfig.server.origin}/assets/$1 [P,L]`,
-  ].join("\n");
-  let content = await fs.readFile(fileSrc, "utf-8");
-
-  if (isEnable) {
-    content = content.replace(`RewriteBase /`, `RewriteBase /\n\n${rule}`);
-  } else {
-    content = content.replace(`\n\n${rule}`, "");
-  }
-
-  await fs.writeFile(fileSrc, content);
 }
 
 async function phpViteDevMode(root, isEnabled) {

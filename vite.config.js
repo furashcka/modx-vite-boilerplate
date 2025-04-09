@@ -1,3 +1,5 @@
+import path from "path";
+import fs from "fs";
 import glob from "glob";
 import { defineConfig } from "vite";
 
@@ -10,8 +12,9 @@ import viteStripTplComments from "./vite/vite-plugin-strip-tpl-comments.js";
 import viteModx from "./vite/vite-plugin-modx.js";
 
 const viteRoot = __dirname;
-// Don't forget to update absolute path to modx root
+// Don't forget to set absolute path to modx root and local modx address.
 const modxRoot = "dist-modx";
+const modxUrl = "http://localhost/";
 
 export default defineConfig({
   root: viteRoot,
@@ -19,10 +22,34 @@ export default defineConfig({
   resolve: {
     alias: { "@": viteRoot },
   },
+  // Before starting dev mode, turn off the vpn, after you can turn on
   server: {
-    origin: "http://localhost:5173",
-    cors: true,
-    strictPort: true,
+    host: "0.0.0.0",
+    proxy: {
+      "/": {
+        xfwd: true,
+        changeOrigin: true,
+        target: modxUrl,
+        bypass: (req) => {
+          if (req.url.match(/^\/(@vite|@id|virtual|node_modules)/)) {
+            return req.url;
+          }
+
+          const url = path.posix.normalize("/" + req.url.split("?")[0]);
+
+          const isFolder = !path.extname(url);
+          if (isFolder) return true;
+
+          const publicDest = path.join(viteRoot, "root", url);
+          if (fs.existsSync(publicDest)) return url;
+
+          const rootDest = path.join(viteRoot, url);
+          if (fs.existsSync(rootDest)) return url;
+
+          return true;
+        },
+      },
+    },
   },
   define: {
     "import.meta.env.VERSION": +new Date(),
