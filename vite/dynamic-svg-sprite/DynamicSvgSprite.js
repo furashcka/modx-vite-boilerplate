@@ -4,6 +4,7 @@ export default class DynamicSvgSprite {
   static #counter = 0;
   #sprite = null;
   #contents = {};
+  #observer = null;
 
   constructor() {
     this.#sprite = this.#createSprite();
@@ -24,7 +25,7 @@ export default class DynamicSvgSprite {
   }
 
   // Creates/updates a sprite
-  update(parentElement) {
+  update(parentElement = document.body) {
     const svgElements = parentElement.querySelectorAll(
       "svg[data-src]:not(.dss-done)",
     );
@@ -42,6 +43,25 @@ export default class DynamicSvgSprite {
       this.#sprite.insertAdjacentHTML("afterbegin", this.#contents[id].symbol);
       this.#svgDone(svgElement, this.#contents[id]);
     });
+  }
+
+  updateByDomObserver(parentElement = document.body) {
+    if (this.#observer !== null) return;
+
+    let timeoutID = null;
+    this.#observer = new MutationObserver((mutationsList) => {
+      for (const mutation of mutationsList) {
+        const isAdded =
+          mutation.type === "childList" && mutation.addedNodes.length > 0;
+        if (isAdded) continue;
+
+        clearTimeout(timeoutID);
+        timeoutID = setTimeout(() => this.update(parentElement));
+        break;
+      }
+    });
+
+    this.#observer.observe(parentElement, { childList: true, subtree: true });
   }
 
   // Svg processed
