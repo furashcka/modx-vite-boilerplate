@@ -1,3 +1,6 @@
+## Alternative versions:
+[scss-version](https://github.com/furashcka/modx-vite-boilerplate/tree/scss-version) - Without Tailwind (legacy SCSS setup)
+
 ## Prettier IDE config
 ```text
 {**/*,*}.{js,ts,jsx,tsx,vue,astro,html,tpl,svg,css,scss}
