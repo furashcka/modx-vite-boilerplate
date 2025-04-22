@@ -28,7 +28,7 @@ if (!$is_dev) {
 
     // For JS
     if (str_ends_with($src, '.js')) {
-        $output = '<script src="/' . $entry['file'] . '"></script>';
+        $output = '<script type="module" src="/' . $entry['file'] . '"></script>';
 
         return $output;
     }
