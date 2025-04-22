@@ -95,7 +95,6 @@ async function injectHelpersCode(root, files) {
       `</head>`,
       `
         {ignore}
-        <scirpt type="module" src="/@vite/client"></scirpt>
         <script type="module">
           window.__VITE_MODX__ = window.__VITE_MODX__ || {};
           window.__VITE_MODX__.resource_id = [[*id]];
