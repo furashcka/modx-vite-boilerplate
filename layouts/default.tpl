@@ -18,6 +18,7 @@
       name="description"
       content="{$_modx->getPlaceholder('seoDescription')}" />
 
+    {$_modx->runSnippet("@FILE snippets/vite.php", ["common/css/base.css"])}
     {block 'styles'}{/block}
   </head>
 

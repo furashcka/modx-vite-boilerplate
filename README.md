@@ -7,26 +7,23 @@
 ```text
 modx-vite-boilerplate/
 ├── common/
-│   ├── js/
-│   │   └── base.js
-│   └── scss/
-│       └── _base.scss
+│   ├── css/
+│   │   └── base.css
+│   └── js/
+│       └── base.js
 ├── components/
 │   ├── favicon/
 │   │   ├── favicon.svg
 │   │   └── favicon.tpl
 │   ├── footer/
-│   │   ├── footer.scss
 │   │   └── footer.tpl
 │   └── header/
-│       ├── header.scss
 │       └── header.tpl
 ├── layouts/
 │   └── default.tpl
 ├── pages/
 │   └── index/
 │       ├── index.js
-│       ├── index.scss
 │       └── index.tpl
 ├── root/
 │   ├── assets/

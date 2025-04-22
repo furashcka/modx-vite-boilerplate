@@ -1,10 +1,6 @@
 <!-- prettier-ignore -->
 {extends "file:layouts/default.tpl"}
 
-{block "styles"}
-  {$_modx->runSnippet("@FILE snippets/vite.php", ["pages/index/index.scss"])}
-{/block}
-
 {block "scripts"}
   {$_modx->runSnippet("@FILE snippets/vite.php", ["pages/index/index.js"])}
 {/block}

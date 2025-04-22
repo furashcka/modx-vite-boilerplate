@@ -3,6 +3,8 @@ import fs from "fs";
 import glob from "glob";
 import { defineConfig } from "vite";
 
+import tailwindcss from "@tailwindcss/vite";
+
 import viteGlobRouter from "./vite/vite-plugin-glob-router.js";
 import viteCopy from "./vite/vite-plugin-copy.js";
 import viteImageMinimizer from "./vite/vite-plugin-image-minimizer.js";
@@ -61,7 +63,7 @@ export default defineConfig({
     assetsDir: "assets/template",
     manifest: "assets/template/manifest.json",
     rollupOptions: {
-      input: glob.sync("pages/**/*.{js,scss}"),
+      input: ["common/css/base.css", ...glob.sync("pages/**/*.js")],
       output: {
         entryFileNames: "assets/template/js/[name]-[hash].js",
         chunkFileNames: "assets/template/js/chunks/[name]-[hash].js",
@@ -81,11 +83,12 @@ export default defineConfig({
     },
   },
   plugins: [
+    tailwindcss(),
     viteGlobRouter({
       targets: [
         {
-          src: "assets/template/components/**/*.!(scss|tpl|js|webp)",
-          dest: "components/**/*.!(scss|tpl|js|webp)",
+          src: "assets/template/components/**/*.!(css|tpl|js|webp)",
+          dest: "components/**/*.!(css|tpl|js|webp)",
         },
         {
           src: "assets/template/components/**/*.{png,jpg,jpeg,webp}",
@@ -100,7 +103,7 @@ export default defineConfig({
     viteCopy({
       targets: [
         {
-          src: "components/**/*.!(scss|tpl|js)",
+          src: "components/**/*.!(css|tpl|js)",
           dest: "assets/template/components",
         },
       ],
