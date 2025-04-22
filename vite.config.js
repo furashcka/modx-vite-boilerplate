@@ -37,6 +37,7 @@ export default defineConfig({
           }
 
           const url = path.posix.normalize("/" + req.url.split("?")[0]);
+          if (url.endsWith(".php")) return true;
 
           const isFolder = !path.extname(url);
           if (isFolder) return true;
