@@ -1,22 +1,20 @@
-{$_modx->runSnippet("!@FILE snippets/init_placeholders.php")}
 <!doctype html>
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- prettier-ignore -->
+    <title>{$_modx->resource.seo_title ? $_modx->resource.seo_title : $_modx->resource.pagetitle}</title>
+    <meta name="description" content="{$_modx->resource.seo_description}" />
+    <link
+      rel="canonical"
+      href="{$_modx->resource.seo_canonical ? $_modx->resource.seo_canonical : $modx->makeUrl($_modx->resource.id, '', '', 'full')}" />
 
     <base href="{$_modx->runSnippet('@FILE snippets/get_base_url.php')}" />
-    <link rel="canonical" href="{$_modx->getPlaceholder('canonical')}" />
 
+    <!-- prettier-ignore -->
     {include "file:components/favicon/favicon.tpl"}
-
-    <title>{$_modx->getPlaceholder("seoTitle")}</title>
-    <meta
-      name="description"
-      content="{$_modx->getPlaceholder('seoDescription')}" />
 
     {$_modx->runSnippet("@FILE snippets/vite.php", ["common/css/base.css"])}
     {block 'styles'}{/block}
