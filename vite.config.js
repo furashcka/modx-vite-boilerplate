@@ -10,6 +10,7 @@ import viteDynamicSvgSprite from "./vite/dynamic-svg-sprite/vite-plugin-dynamic-
 import viteSimplifiedFavicon from "./vite/vite-plugin-simplified-favicon.js";
 import viteStripTplComments from "./vite/vite-plugin-strip-tpl-comments.js";
 import viteModx from "./vite/vite-plugin-modx.js";
+import viteModxHMR from "./vite/vite-plugin-modx-hmr.js";
 
 const viteRoot = __dirname;
 // Don't forget to set absolute path to modx root and local modx address.
@@ -173,5 +174,6 @@ export default defineConfig({
       ],
       clearCache: true,
     }),
+    viteModxHMR({ root: modxRoot }),
   ],
 });

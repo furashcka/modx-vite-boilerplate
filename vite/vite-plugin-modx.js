@@ -5,6 +5,7 @@ import minimatch from "minimatch";
 import cpy from "cpy";
 
 import { getViteConfig, setViteConfig } from "./utils/viteConfig.js";
+import eventBus from "./utils/eventBus.js";
 
 export default function viteModx({
   root = "dist-modx",
@@ -25,7 +26,7 @@ export default function viteModx({
     async configureServer(server) {
       const viteConfig = getViteConfig();
       const cache = path.resolve(root, "core/cache");
-      const copyFileHandler = async (src) => {
+      const copyFileHandler = async (src, watcherEvent) => {
         const target = getMatchedTarget({ targets, file: src });
         if (!target) return;
 
@@ -38,28 +39,37 @@ export default function viteModx({
           to use a stupid filter solution.
         */
         // TODO: Optimize so that copying takes place in one operation.
-        cpy(target.src, dest, {
+        const files = await cpy(target.src, dest, {
           flat,
           filter: (file) => file.path === src,
+        });
+        eventBus.emit("vite-plugin-modx:files-copied", {
+          watcherEvent,
+          files,
         });
 
         if (clearCache) await fs.rm(cache, { recursive: true, force: true });
       };
 
       // Copies all files, once
-      targets.forEach((target) => {
+      const promises = targets.map(async (target) => {
         const src = path.resolve(viteConfig.root, target.src);
         const dest = path.resolve(root, target.dest);
         const { flat = false } = target;
 
-        cpy(src, dest, { flat });
+        let files = await cpy(src, dest, { flat });
+        eventBus.emit("vite-plugin-modx:files-copied", {
+          watcherEvent: "first-start",
+          files,
+        });
       });
 
-      server.watcher.on("add", copyFileHandler);
-      server.watcher.on("change", copyFileHandler);
-
-      await fs.rm(cacheDir, { recursive: true, force: true });
+      await Promise.all(promises);
       await phpViteDevMode(root, true);
+      await fs.rm(cacheDir, { recursive: true, force: true });
+
+      server.watcher.on("add", (src) => copyFileHandler(src, "add"));
+      server.watcher.on("change", (src) => copyFileHandler(src, "change"));
     },
 
     async writeBundle() {
