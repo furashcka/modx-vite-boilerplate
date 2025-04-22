@@ -11,6 +11,8 @@
     "cpy": "^11.1.0",
     "glob": "8.1.0",
     "minimatch": "3.0.4",
+    "prettier": "^3.5.3",
+    "prettier-plugin-tailwindcss": "^0.6.11",
     "sass": "^1.85.1",
     "sharp": "^0.33.5",
     "sharp-ico": "^0.1.5",
