@@ -65,13 +65,10 @@ export default defineConfig({
       output: {
         entryFileNames: "assets/template/js/[name]-[hash].js",
         chunkFileNames: "assets/template/js/chunks/[name]-[hash].js",
-
-        assetFileNames(assetInfo) {
-          const { name, originalFileName } = assetInfo;
-
+        assetFileNames({ name, originalFileName }) {
           // Analog entryFileNames & chunkFileNames for .css
           if (name && originalFileName && name.endsWith(".css")) {
-            if (originalFileName.match(/^pages\//)) {
+            if (originalFileName.includes("pages/")) {
               return "assets/template/css/[name]-[hash][extname]";
             }
 
