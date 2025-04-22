@@ -36,6 +36,8 @@ modx-vite-boilerplate/
 │   │   └── elements/
 │   │       ├── plugins/
 │   │       └── snippets/
+│   │           ├── get_base_url.php
+│   │           ├── init_placeholders.php
 │   │           └── vite.php
 │   └── .htaccess
 ├── vite/
