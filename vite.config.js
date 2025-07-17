@@ -133,7 +133,6 @@ export default defineConfig({
         {
           src: "pages/**/*.tpl",
           dest: "core/elements/pages",
-          flat: true,
         },
         {
           src: "root/core/elements/configs/**/*",
