@@ -90,14 +90,6 @@ export default defineConfig({
     viteGlobRouter({
       targets: [
         {
-          src: "assets/template/components/**/*.!(css|tpl|js|webp)",
-          dest: "components/**/*.!(css|tpl|js|webp)",
-        },
-        {
-          src: "assets/template/components/**/*.{png,jpg,jpeg,webp}",
-          dest: "components/**/*.{png,jpg,jpeg,webp}",
-        },
-        {
           src: "assets/template/**/*.{png,jpg,jpeg,webp}",
           dest: "assets/template/**/*.{png,jpg,jpeg,webp}",
         },
