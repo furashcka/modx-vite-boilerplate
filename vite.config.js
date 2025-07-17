@@ -91,7 +91,7 @@ export default defineConfig({
       targets: [
         {
           src: "assets/template/**/*.{png,jpg,jpeg,webp}",
-          dest: "assets/template/**/*.{png,jpg,jpeg,webp}",
+          dest: "root/assets/template/**/*.{png,jpg,jpeg,webp}",
         },
       ],
     }),
