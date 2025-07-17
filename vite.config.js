@@ -116,8 +116,8 @@ export default defineConfig({
       ],
     }),
     viteSimplifiedFavicon({
-      src: "components/favicon/favicon.svg",
-      dest: "assets/template/components/favicon",
+      src: "root/assets/template/favicon/favicon.svg",
+      dest: "assets/template/favicon",
     }),
     viteModx({
       root: modxRoot,
