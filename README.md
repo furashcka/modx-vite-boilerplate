@@ -33,6 +33,7 @@ modx-vite-boilerplate/
 │   │       │   └── favicon.svg
 │   │       ├── fonts/
 │   │       └── img/
+│   │           └── icons/
 │   ├── core/
 │   │   └── elements/
 │   │       ├── plugins/
