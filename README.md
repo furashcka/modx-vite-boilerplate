@@ -17,7 +17,6 @@ modx-vite-boilerplate/
 │       └── _base.scss
 ├── components/
 │   ├── favicon/
-│   │   ├── favicon.svg
 │   │   └── favicon.tpl
 │   ├── footer/
 │   │   ├── footer.scss
@@ -37,6 +36,8 @@ modx-vite-boilerplate/
 │   │   ├── resources/
 │   │   │   └── 1/
 │   │   └── template/
+│   │       ├── favicon/
+│   │       │   └── favicon.svg
 │   │       ├── fonts/
 │   │       └── img/
 │   │           └── icons/
@@ -44,6 +45,7 @@ modx-vite-boilerplate/
 │   │   └── elements/
 │   │       ├── plugins/
 │   │       └── snippets/
+│   │           ├── get_base_url.php
 │   │           └── vite.php
 │   └── .htaccess
 ├── vite/
