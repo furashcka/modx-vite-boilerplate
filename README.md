@@ -13,7 +13,6 @@ modx-vite-boilerplate/
 │       └── base.js
 ├── components/
 │   ├── favicon/
-│   │   ├── favicon.svg
 │   │   └── favicon.tpl
 │   ├── footer/
 │   │   └── footer.tpl
@@ -30,6 +29,8 @@ modx-vite-boilerplate/
 │   │   ├── resources/
 │   │   │   └── 1/
 │   │   └── template/
+│   │       ├── favicon/
+│   │       │   └── favicon.svg
 │   │       ├── fonts/
 │   │       └── img/
 │   ├── core/
@@ -46,3 +47,6 @@ modx-vite-boilerplate/
 ├── package.json
 └── vite.config.js
 ```
+
+## SCSS Version
+A version without Tailwind CSS, with a classic SCSS setup, is available in the [scss-version](https://github.com/furashcka/modx-vite-boilerplate/tree/scss-version) branch.
