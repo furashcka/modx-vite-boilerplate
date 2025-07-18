@@ -1,3 +1,7 @@
+## Recommended Version (with Tailwind CSS)
+
+Please note that this SCSS version is updated less frequently. The primary, recommended version with Tailwind CSS is in the [main](https://github.com/furashcka/modx-vite-boilerplate) branch.
+
 ## Prettier IDE config
 ```text
 {**/*,*}.{js,ts,jsx,tsx,vue,astro,html,tpl,svg,css,scss}
@@ -35,6 +39,7 @@ modx-vite-boilerplate/
 │   │   └── template/
 │   │       ├── fonts/
 │   │       └── img/
+│   │           └── icons/
 │   ├── core/
 │   │   └── elements/
 │   │       ├── plugins/
