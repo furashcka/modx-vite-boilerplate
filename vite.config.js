@@ -3,14 +3,15 @@ import fs from "fs";
 import glob from "glob";
 import { defineConfig } from "vite";
 
+import VitePluginSvgSpritemap from "@spiriit/vite-plugin-svg-spritemap";
+
 import viteGlobRouter from "./vite/vite-plugin-glob-router.js";
 import viteCopy from "./vite/vite-plugin-copy.js";
 import viteImageMinimizer from "./vite/vite-plugin-image-minimizer.js";
-import viteDynamicSvgSprite from "./vite/dynamic-svg-sprite/vite-plugin-dynamic-svg-sprite.js";
 import viteSimplifiedFavicon from "./vite/vite-plugin-simplified-favicon.js";
-import viteStripTplComments from "./vite/vite-plugin-strip-tpl-comments.js";
 import viteModx from "./vite/vite-plugin-modx.js";
 import viteModxHMR from "./vite/vite-plugin-modx-hmr.js";
+import viteModxPostprocess from "./vite/vite-plugin-modx-postprocess.js";
 
 const viteRoot = __dirname;
 // Don't forget to set absolute path to modx root and local modx address.
@@ -53,9 +54,6 @@ export default defineConfig({
       },
     },
   },
-  define: {
-    "import.meta.env.VERSION": +new Date(),
-  },
   build: {
     outDir: "dist",
     assetsDir: "assets/template",
@@ -81,19 +79,17 @@ export default defineConfig({
     },
   },
   plugins: [
+    VitePluginSvgSpritemap("./root/assets/template/img/icons/*.svg", {
+      prefix: "",
+      output: {
+        filename: "img/[name]-[hash][extname]",
+      },
+    }),
     viteGlobRouter({
       targets: [
         {
-          src: "assets/template/components/**/*.!(scss|tpl|js|webp)",
-          dest: "components/**/*.!(scss|tpl|js|webp)",
-        },
-        {
-          src: "assets/template/components/**/*.{png,jpg,jpeg,webp}",
-          dest: "components/**/*.{png,jpg,jpeg,webp}",
-        },
-        {
           src: "assets/template/**/*.{png,jpg,jpeg,webp}",
-          dest: "assets/template/**/*.{png,jpg,jpeg,webp}",
+          dest: "root/assets/template/**/*.{png,jpg,jpeg,webp}",
         },
       ],
     }),
@@ -117,26 +113,10 @@ export default defineConfig({
         },
       ],
     }),
-    viteDynamicSvgSprite({
-      targets: [
-        {
-          src: "components/**/*.svg",
-          ignore: ["!components/favicon/favicon.svg"],
-          dest: "assets/template/components",
-        },
-        {
-          src: "root/**/*.svg",
-          dest: "",
-        },
-      ],
-      // svgo runs from viteImageMinimizer
-      svgo: false,
-    }),
     viteSimplifiedFavicon({
-      src: "components/favicon/favicon.svg",
-      dest: "assets/template/components/favicon",
+      src: "root/assets/template/favicon/favicon.svg",
+      dest: "assets/template/favicon",
     }),
-    viteStripTplComments(),
     viteModx({
       root: modxRoot,
       targets: [
@@ -151,7 +131,6 @@ export default defineConfig({
         {
           src: "pages/**/*.tpl",
           dest: "core/elements/pages",
-          flat: true,
         },
         {
           src: "root/core/elements/configs/**/*",
@@ -173,5 +152,6 @@ export default defineConfig({
       clearCache: true,
     }),
     viteModxHMR({ root: modxRoot }),
+    viteModxPostprocess(),
   ],
 });

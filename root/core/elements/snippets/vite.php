@@ -35,7 +35,7 @@ if (!$is_dev) {
     // For SCSS/CSS
     elseif (str_ends_with($src, '.scss') || str_ends_with($src, '.css')) {
         if (isset($entry['isEntry']) && $entry['isEntry']) {
-            return '<link rel="stylesheet" href="/' . $entry['file'] . '" />';
+            return '<link rel="stylesheet" href="/' . $entry['css'][0] . '" />';
         }
     }
 
