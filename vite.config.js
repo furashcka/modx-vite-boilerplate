@@ -65,6 +65,10 @@ export default defineConfig({
         entryFileNames: "assets/template/js/[name]-[hash].js",
         chunkFileNames: "assets/template/js/chunks/[name]-[hash].js",
         assetFileNames({ name, originalFileName }) {
+          if (name && /\.(woff2?|ttf|otf|eot)$/i.test(name)) {
+            return "assets/template/fonts/[name]-[hash][extname]";
+          }
+
           // Analog entryFileNames & chunkFileNames for .css
           if (name && originalFileName && name.endsWith(".css")) {
             if (originalFileName === "common/css/base.css") {
@@ -154,8 +158,9 @@ export default defineConfig({
       clearCache: true,
     }),
     viteModxHMR({ root: modxRoot }),
-    // Removing HTML comments
-    // Replacing /__spritemap to **/spritemap-[hash].svg
-    viteModxPostprocess(),
+    viteModxPostprocess({
+      stripComments: true,
+      manifest: { stripFonts: true },
+    }),
   ],
 });

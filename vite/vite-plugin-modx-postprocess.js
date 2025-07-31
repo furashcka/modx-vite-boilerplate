@@ -4,7 +4,14 @@ import glob from "glob";
 
 import { getViteConfig, setViteConfig } from "./utils/viteConfig.js";
 
-export default function viteModxPostprocess() {
+export default function viteModxPostprocess(args) {
+  const { stripComments: isStripComments, manifest } = Object.assign(args, {
+    stripComments: true,
+    manifest: {
+      stripFonts: true,
+    },
+  });
+
   return {
     name: "vite-plugin-modx-postprocess",
     apply: "build",
@@ -23,12 +30,13 @@ export default function viteModxPostprocess() {
         let content = await fs.readFile(fileSrc, "utf8");
 
         content = replaceSvgSpritemap(content, spritemapURI);
-        content = stripComments(content);
+        if (isStripComments) content = stripComments(content);
 
         await fs.writeFile(fileSrc, content, "utf8");
       });
 
       await Promise.all(promises);
+      if (manifest.stripFonts) await manifestStripFonts();
     },
   };
 }
@@ -72,4 +80,55 @@ function stripComments(content) {
 
   // Remove any remaining inline comments
   return content.replace(/<!--[\s\S]*?-->/g, "");
+}
+
+/* Remove fonts from manifest.json */
+async function manifestStripFonts() {
+  const viteConfig = getViteConfig();
+  const outDir = viteConfig.build?.outDir ?? "dist";
+  const manifestRelPath = viteConfig.build?.manifest ?? "manifest.json";
+  const manifestPath = path.join(outDir, manifestRelPath);
+
+  const FONT_EXTENSIONS = [".woff", ".woff2", ".ttf", ".otf", ".eot"];
+
+  const hasFontExtension = (filename) => {
+    if (!filename) return false;
+    const lowercaseFilename = filename.toLowerCase();
+    return FONT_EXTENSIONS.some((ext) => lowercaseFilename.endsWith(ext));
+  };
+
+  try {
+    const manifestContent = await fs.readFile(manifestPath, "utf8");
+    const manifest = JSON.parse(manifestContent);
+
+    const filteredManifest = Object.fromEntries(
+      Object.entries(manifest)
+        .filter(
+          ([key, value]) =>
+            !hasFontExtension(key) && !hasFontExtension(value?.src),
+        )
+        .map(([key, value]) => {
+          if (value?.assets && Array.isArray(value.assets)) {
+            return [
+              key,
+              {
+                ...value,
+                assets: value.assets.filter(
+                  (asset) => !hasFontExtension(asset),
+                ),
+              },
+            ];
+          }
+          return [key, value];
+        }),
+    );
+
+    await fs.writeFile(
+      manifestPath,
+      JSON.stringify(filteredManifest, null, 2),
+      "utf8",
+    );
+  } catch (error) {
+    console.error("Failed to strip fonts from manifest:", error);
+  }
 }
