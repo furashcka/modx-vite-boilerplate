@@ -67,13 +67,18 @@ export default function viteModxHMR({
         event: "tpl-changed",
         data: {
           src: path.relative(viteConfig.root, file),
-          content,
+          content: removeFenomComments(content),
         },
       });
 
       return modules;
     },
   };
+}
+
+function removeFenomComments(content) {
+  const fenomCommentRegex = /\{\*[\s\S]*?\*\}/g;
+  return content.replace(fenomCommentRegex, '');
 }
 
 // Needs for HMR
